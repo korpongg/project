@@ -43,8 +43,10 @@ public class Calculator extends JPanel{
 	int o=2;
 	 ArrayList <String> allSS=new ArrayList <String>();
 	 String ss99;
-	public Calculator(Frame f,Grade g,ArrayList <String> allSS,String ss99) 
+	 ArrayList<Double> array4=new ArrayList <Double>();
+	public Calculator(Frame f,Grade g,ArrayList <String> allSS,String ss99,ArrayList<Double> array4) 
 	{
+		this.array4=array4;
 		this.allSS=allSS;
 		this.f=f;
 		this.g=g;
@@ -219,6 +221,9 @@ public class Calculator extends JPanel{
 		JPanel p3=new JPanel();
 		JPanel p4=new JPanel();
 		table.setRowHeight(20);
+		table.sizeColumnsToFit(150);
+		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		//table.setFillsViewportHeight(true);
 		table.getColumnModel().getColumn(0).setPreferredWidth(30);
 		table.getColumnModel().getColumn(1).setPreferredWidth(120);
 		table.getColumnModel().getColumn(2).setPreferredWidth(200);
@@ -279,7 +284,7 @@ repaint();
 						 }
 						
 					 }
-					    
+						
 					//  if(a[i].equals(""))
 					//  {
 					//	  System.out.println("asdasd");
@@ -307,6 +312,9 @@ repaint();
 				// TODO Auto-generated method stub
 			//	table.addColumn("sadasd");
 TableColumn tt=new TableColumn();
+tt.setMinWidth(2000);
+
+tt.setPreferredWidth(1400);
 //table.setrow
 List<Integer> intValues = Arrays.asList(1, 2, 3, 4, 5);
 List<String> stringValues = Arrays.asList("One", "Two", "Three", "Four", "Five");
@@ -320,7 +328,7 @@ List<String> stringValues = Arrays.asList("One", "Two", "Three", "Four", "Five")
 			for(int i=0;i<table.getRowCount();i++)
 				
 		table.setValueAt("", i, 3+k);
-
+			table.getColumnModel().getColumn(3+k).setPreferredWidth(130);
 				
 			    
 			}

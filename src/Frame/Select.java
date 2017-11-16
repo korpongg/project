@@ -6,6 +6,8 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileFilter;
@@ -40,6 +42,9 @@ JTextArea a1,a2;
  double dd1,dd2,dd3,dd4,dd5,dd6,dd7,dd8;
  String ss99;
  int k=0;
+ int l=0;
+ ArrayList < JTextField> array2;
+ ArrayList <Double> array4;
  ArrayList <String> allSS=new ArrayList <String> ();
 	  public Select(Frame f) {
 		
@@ -71,9 +76,10 @@ JTextArea a1,a2;
 		  
 		  ArrayList <JPanel> array=new ArrayList <JPanel>();
 		
-		  ArrayList < JTextField> array2=new ArrayList < JTextField>();
+		array2=new ArrayList < JTextField>();
 		  ArrayList <JLabel> array3=new ArrayList <JLabel>();
 		  
+		 array4=new ArrayList <Double>();
 	    setLayout(new BorderLayout());
 	     p1=new JPanel();
 	     
@@ -502,10 +508,20 @@ JTextArea a1,a2;
 					  ss8=tF.getText();
 					  dd8=Double.parseDouble(ss8);*/
 					g.setNum(dd1, dd2, dd3, dd4, dd5, dd6, dd7);
-					
+					//setArr();
+					for(int x=0;x<l;x++)
+					{
+						array4.add(Double.parseDouble(array2.get(x).getText()));
+						System.out.println(array2.get(x).getText());
+					}
+					for(int x=0;x<array4.size();x++)
+					{
+							System.out.println("aaaaaaarrrrrrraaaayyyy444444--======="+array4.get(x));	
+					}
 					f.dispose();
+					
 					JFrame f3=new JFrame();
-					Calculator c=new Calculator(f3,g,allSS,ss99);
+					Calculator c=new Calculator(f3,g,allSS,ss99,array4);
 				//	c.setString(allSS);
 					f3.dispose();
 					f3.add(c);
@@ -539,7 +555,19 @@ b2.addActionListener(new ActionListener() {
 					JPanel jpxx=new JPanel();
 					jpxx.add(array3.get(k-1));
 					jpxx.add(array2.get(k-1));
-					
+					l++;
+					/*
+.addActionListener(new ActionListener() {
+				  		
+				  		@Override
+				  		public void actionPerformed(ActionEvent arg0) {
+				  			// TODO Auto-generated method stub
+				  			
+				  			array4.add(Double.parseDouble(array2.get(k-1).getText()));
+				  			System.out.println("adwdwwadawdwa==========++++"+array2.get(k-1).getText());
+				  			//System.out.println("adwdwwadawdwa==========++++"+array4.get(l));
+				  		}
+				  	});*/
 					p4.add(jpxx);
 					
 					p2.add(p4);
@@ -549,6 +577,9 @@ b2.addActionListener(new ActionListener() {
 					repaint();
 				}
 			});
+
+
+
 			p3.setLayout(new FlowLayout());
 			p3.add(b1);
 			p3.add(b2);
@@ -561,6 +592,23 @@ b2.addActionListener(new ActionListener() {
 		  {
 			  a1.append("   Full score \n");
    			 
+		  }
+	  }
+	  
+	  public void setArr()
+	  {
+		  for(l=0;l<3;l++)
+		  {
+		  	array2.get(l).addActionListener(new ActionListener() {
+		  		
+		  		@Override
+		  		public void actionPerformed(ActionEvent arg0) {
+		  			// TODO Auto-generated method stub
+		  			
+		  			array4.add(Double.parseDouble(array2.get(l).getText()));
+		  			System.out.println(array4.get(l));
+		  		}
+		  	});
 		  }
 	  }
 }
