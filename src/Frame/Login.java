@@ -297,6 +297,10 @@ public class Login extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				ChecKLoginController checker = new ChecKLoginController();
+				if (checker.checkLogin(ss3, ss4, new File("filename.txt"))) {
+					
+				}
 				ss3=t1.getText();
 				ss4=t2.getText();
 				System.out.println("ss3=="+ss3);

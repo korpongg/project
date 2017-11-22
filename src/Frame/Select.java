@@ -54,7 +54,7 @@ JTextArea a1,a2;
 		  ss99=f3.getAbsolutePath();
 		  System.out.println(ss99);
 		
-
+		  
 		
 		 this.f=f;
 		  JTextField t1=new  JTextField(10);
@@ -491,7 +491,7 @@ JTextArea a1,a2;
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					Grade g= new Grade();
-					/*ss1=tA.getText();
+					ss1=tA.getText();
 					  dd1=Double.parseDouble(ss1);
 					  ss2=tBB.getText();
 					  dd2=Double.parseDouble(ss2);
@@ -506,7 +506,7 @@ JTextArea a1,a2;
 					  ss7=tD.getText();
 					  dd7=Double.parseDouble(ss7);
 					  ss8=tF.getText();
-					  dd8=Double.parseDouble(ss8);*/
+					  dd8=Double.parseDouble(ss8);
 					g.setNum(dd1, dd2, dd3, dd4, dd5, dd6, dd7);
 					//setArr();
 					for(int x=0;x<l;x++)
@@ -529,7 +529,7 @@ JTextArea a1,a2;
 					f3.setTitle("Sign In");
 					f3.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 					f3.setVisible(true);
-					f3.setLocationRelativeTo(null);
+					//f3.setLocationRelativeTo(null);
 					f3.pack();
 					f3.repaint();
 				}

@@ -5,8 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,7 +46,12 @@ public class Calculator extends JPanel{
 	int o=2;
 	 ArrayList <String> allSS=new ArrayList <String>();
 	 String ss99;
+	 double[] a;
+	double stu;
+	 ArrayList <Double> allS=new ArrayList <Double>();
+	 double allsize=0;
 	 ArrayList<Double> array4=new ArrayList <Double>();
+	 ChecKCalController checker = new ChecKCalController();
 	public Calculator(Frame f,Grade g,ArrayList <String> allSS,String ss99,ArrayList<Double> array4) 
 	{
 		this.array4=array4;
@@ -228,8 +236,8 @@ public class Calculator extends JPanel{
 		table.getColumnModel().getColumn(1).setPreferredWidth(120);
 		table.getColumnModel().getColumn(2).setPreferredWidth(200);
 		table.getColumnModel().getColumn(3).setPreferredWidth(100);
-		table.getColumnModel().getColumn(4).setPreferredWidth(130);
-	table.getColumnModel().getColumn(5).setPreferredWidth(130);
+	//	table.getColumnModel().getColumn(4).setPreferredWidth(130);
+	//table.getColumnModel().getColumn(5).setPreferredWidth(130);
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 
 		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -254,12 +262,56 @@ repaint();
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for(int l=0;l<allSS.size();l++)
-				{
+				a= new double[j];
+				double sum=0;
+				
 				for(int i=0;i<table.getRowCount();i++)
 				{
-					System.out.println("sadsasdasdasd-====="+(4+l));
-					double[] a= new double[j];
+					//System.out.println("sadsasdasdasd-====="+(4+l));
+					for(int l=0;l<allSS.size();l++)
+					{
+						
+						 String b;
+						 if(table.getValueAt(i, 4+l)==null)
+						 {
+							 a[i]=0;
+							 sum=sum+a[i];
+								if (checker.checkCal(a[i])) {
+									
+								}
+							 //System.out.println(a[i]);
+						 }
+						 else
+						 {
+							 
+							 b = (String) table.getValueAt(i, 4+l);
+							 if(b.equals(""))
+							 {
+								 a[i]=0;
+								 if (checker.checkCal(a[i])) {
+										
+									}
+								 sum=sum+a[i];
+								 
+								// System.out.println(a[i]);
+								 
+							 }
+							 else
+							 {
+								 a[i]=Integer.parseInt(b);
+								 if (checker.checkCal(a[i])) {
+										
+									}
+								 sum=sum+a[i];
+								// System.out.println(i+"---"+a[i]);
+								 //System.out.println(g.getGrade(a[i]));
+							 }
+							
+						 }
+					}
+					a[i]=sum;
+					sum=0;
+					/* a= new double[j];
 					 String b;
 					 if(table.getValueAt(i, 4+l)==null)
 					 {
@@ -279,11 +331,11 @@ repaint();
 						 else
 						 {
 							 a[i]=Integer.parseInt(b);
-							 System.out.println(a[i]);
+							 System.out.println(i+"---"+a[i]);
 							 System.out.println(g.getGrade(a[i]));
 						 }
 						
-					 }
+					 }*/
 						
 					//  if(a[i].equals(""))
 					//  {
@@ -301,7 +353,8 @@ repaint();
 					
 					//System.out.println(list4.get(i));
 				}
-				}
+				
+				
 			}
 		});
 		
@@ -311,24 +364,46 @@ repaint();
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 			//	table.addColumn("sadasd");
-TableColumn tt=new TableColumn();
-tt.setMinWidth(2000);
-
-tt.setPreferredWidth(1400);
-//table.setrow
-List<Integer> intValues = Arrays.asList(1, 2, 3, 4, 5);
-List<String> stringValues = Arrays.asList("One", "Two", "Three", "Four", "Five");
-
-//TableView<Integer> table = new TableView<>();
-				table.addColumn(tt);
-				k++;
-				repaint();
+				for(int i=0;i<array4.size();i++)
+				{
+					allsize=allsize+array4.get(i);
+				}
+				System.out.println("allSize===="+allsize);
+				double ai[]=new double[j];
+				double stu[]=new double[j];
+			
+				for(int i=0;i<j;i++)
+				{
+					stu[i]=(a[i]/allsize)*100;
+					System.out.println("stu"+i+" === "+stu[i]);
+					//ai[i]=(a[i])
+				}
 				
-				 //data =new String[j][6];
-			for(int i=0;i<table.getRowCount();i++)
-				
-		table.setValueAt("", i, 3+k);
-			table.getColumnModel().getColumn(3+k).setPreferredWidth(130);
+				File file = new File("Score.txt");
+				if (!file.exists()) {
+					try {
+						file.createNewFile();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} 
+			  
+				try {
+					
+					BufferedWriter buf = new BufferedWriter(new FileWriter(file, false)); 
+					file.delete();
+					for(int i=0;i<j;i++)
+					{
+						
+						buf.write(list1.get(i)+" "+g.getGrade(stu[i]));
+						buf.newLine();
+						
+					}
+					buf.close();
+					
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				
 			    
 			}
@@ -338,7 +413,9 @@ List<String> stringValues = Arrays.asList("One", "Two", "Three", "Four", "Five")
 	
 	public void setString( ArrayList <String> allSS)
 	{
+		//double sum=0;
 		System.out.println("sasssss==="+allSS.size());
+		
 		this.allSS=allSS;
 	}
 }
