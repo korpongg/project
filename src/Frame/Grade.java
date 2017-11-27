@@ -21,14 +21,14 @@ public class Grade {
 	}
 	public String getGrade(double num)
 	{
-		/*System.out.println("sdasdsadasd====   "+num);
+		System.out.println("sdasdsadasd====   "+num);
 		System.out.println("sdasdsadasd11111====   "+n1);
 		System.out.println("sdasdsadasd222====   "+n2);
 		System.out.println("sdasdsadasd3333===2=   "+n3);
 		System.out.println("sdasdsadasd4444====   "+n4);
 		System.out.println("sdasdsadasd5555====   "+n5);
 		System.out.println("sdasdsadasd666====   "+n6);
-		System.out.println("sdasdsadasd77777====   "+n7);*/
+		System.out.println("sdasdsadasd77777====   "+n7);
 		if(num>=n1)
 		{
 			return "A";

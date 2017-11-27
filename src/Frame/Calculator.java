@@ -59,6 +59,7 @@ public class Calculator extends JPanel{
 	int i=0,j=0;
 	int k=2;
 	
+	
 	String[][] data;
 	int o=2;
 	JTable table;
@@ -116,7 +117,8 @@ public class Calculator extends JPanel{
             { 
             	check=0;
             } 
-        
+            
+            jrb2.setSelected(false);
 		}
 	});
 jrb2.addActionListener(new ActionListener() {
@@ -132,6 +134,7 @@ jrb2.addActionListener(new ActionListener() {
             { 
             	check=1;
             } 
+            jrb1.setSelected(false);
         
 		}
 	});
@@ -421,7 +424,16 @@ repaint();
 				double sum=0;
 				ai=new double[j];
 				stu=new double[j];
-				
+				for(int i=0;i<table.getRowCount();i++)
+				{
+					//System.out.println("sadsasdasdasd-====="+(4+l));
+					a[i]=0;
+				}
+				for(int i=0;i<table.getRowCount();i++)
+				{
+					//System.out.println("sadsasdasdasd-====="+(4+l));
+					stu[i]=0;
+				}
 				for(int i=0;i<table.getRowCount();i++)
 				{
 					//System.out.println("sadsasdasdasd-====="+(4+l));
@@ -619,8 +631,8 @@ repaint();
 					{
 						if(check==0)
 						{
-							buf.write(list1.get(i)+" "+g.getGrade(a[i]));
-							email.sendEmail(list1.get(i)+" "+g.getGrade(a[i]));
+							buf.write(list1.get(i)+" "+g.getGrade(stu[i]));
+							email.sendEmail(list1.get(i)+" "+g.getGrade(stu[i]));
 						}
 						else
 						{
