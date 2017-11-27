@@ -26,16 +26,18 @@ class TestCheckLoginController {
 		
 		boolean result=controller.checkLogin("aaaa","12345", new File("filename.txt"));
 		
-		assertTrue(result == true);
+		assertTrue(result);
 	}
 	
 	@Test
 	void testLoginFailed() {
 		
 		
-		boolean result=controller.checkLogin("ssss","9999", new File("filename.txt"));
-		
-		assertTrue(result == false);
+	String result=controller.checkLoginNull("aaaa","12345",null);
+		assertTrue(result=="Not have");
 	}
+	
+	
+
 
 }

@@ -35,7 +35,7 @@ public class Select extends JPanel {
 	private   JLabel   l2;
 private JPanel p1,p2,p3,p4,p5;
 	private Frame f;
-private int ch1=0;
+private int ch1=0,ch2=0,ch3=0;
 private int sel1=0,sel2=0;
 JTextArea a1,a2;
  String ss1,ss2,ss3,ss4,ss5,ss6,ss7,ss8;
@@ -46,6 +46,7 @@ JTextArea a1,a2;
  ArrayList < JTextField> array2;
  ArrayList <Double> array4;
  ArrayList <String> allSS=new ArrayList <String> ();
+ String cls1,cls2,cls3;
 	  public Select(Frame f) {
 		
 		  JFileChooser chooser =new  JFileChooser();
@@ -154,7 +155,7 @@ JTextArea a1,a2;
 	    
 	    
 	    String[] s1 = {"", "cs211", "cs213",  "cs223", "cs284" };
-		  String[] s2 = {"", "65001", "65002" };
+		  String[] s2 = {"", "650001", "650002" };
 		  String[] s3 = { "","2017" };
 		  JComboBox cb1=new JComboBox(s1);
 		  JComboBox cb2=new JComboBox(s2);
@@ -168,25 +169,26 @@ JTextArea a1,a2;
 			public void actionPerformed(ActionEvent e) {
 				  if (cb1.getSelectedItem().toString().equals("cs211"))
 	                {
-					  sel1=1;
-					  ch1++;
+					  sel1=1; cls1="cs211";
+					  ch1=1;
 	                }
 				  if (cb1.getSelectedItem().toString().equals("cs213"))
 	                {
-					  sel1=2;
-					  ch1++;
+					  sel1=2; cls1="cs213";
+					  ch1=1;
 	                }
 				  if (cb1.getSelectedItem().toString().equals("cs223"))
 	                {
-					  sel1=3;
-					  ch1++;
+					  sel1=3; cls1="cs223";
+					  ch1=1;
 	                }
 				  if (cb1.getSelectedItem().toString().equals("cs284"))
 	                {sel1=4;
-					  ch1++;
+	                cls1="cs284";
+	                ch1=1;
 	                }
-				
-				  if(ch1>=3)
+				  
+				  if(ch1==1&&ch2==1&&ch3==1)
 					 {
 					  /*  pp1.add(la1);
 					  pp2.add(la2);
@@ -252,16 +254,18 @@ JTextArea a1,a2;
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					  if (cb2.getSelectedItem().toString().equals("65001"))
+					  if (cb2.getSelectedItem().toString().equals("650001"))
 		                {sel2=1;
-						  ch1++;
+		                cls2="650001";
+		                ch2=1;
 		                }
-					  if (cb2.getSelectedItem().toString().equals("65002"))
+					  if (cb2.getSelectedItem().toString().equals("650002"))
 		                {sel2=2;
-						  ch1++;	
+		                cls2="650002";
+		                ch2=1;
 		                }
 					  System.out.println(ch1);
-					  if(ch1>=3)
+					  if(ch1==1&&ch2==1&&ch3==1)
 						 {
 						/*  pp1.add(la1);
 						  pp2.add(la2);
@@ -329,9 +333,11 @@ JTextArea a1,a2;
 				public void actionPerformed(ActionEvent e) {
 					  if (cb3.getSelectedItem().toString().equals("2017"))
 		                {
-						  ch1++;
+						
+						  ch3=1;
+						  cls3="2017";
 		                }
-					  if(ch1>=3)
+					  if(ch1==1&&ch2==1&&ch3==1)
 						 {
 						  /*  pp1.add(la1);
 						  pp2.add(la2);
@@ -486,6 +492,7 @@ JTextArea a1,a2;
 			b1.setText("ENTER");
 			  JButton b2=new JButton();
 				b2.setText("ADD");
+				
 			b1.addActionListener(new ActionListener() {
 				
 				@Override
@@ -524,6 +531,8 @@ JTextArea a1,a2;
 					Calculator c=new Calculator(f3,g,allSS,ss99,array4);
 				//	c.setString(allSS);
 					f3.dispose();
+					c.setText(cls1, cls2, cls3);
+			
 					f3.add(c);
 					f3.setSize(500, 500);
 					f3.setTitle("Sign In");

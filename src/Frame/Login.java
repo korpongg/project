@@ -297,15 +297,18 @@ public class Login extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+			
 				ChecKLoginController checker = new ChecKLoginController();
 				if (checker.checkLogin(ss3, ss4, new File("filename.txt"))) {
-					
+					System.out.println("true");
 				}
 				ss3=t1.getText();
 				ss4=t2.getText();
+				if(!t1.getText().equals("")&&!t2.getText().equals(""))
+				{
 				System.out.println("ss3=="+ss3);
 				System.out.println("ss4=="+ss4);
-			
+	
 				String fileName = "filename.txt";
 			  
 			    try {
@@ -375,16 +378,21 @@ public class Login extends JPanel {
 			    	else
 			    	{
 			    		System.out.println("not found");
+			    		
 			    	}
 			    }
+			    cc=0;
 				
 				
 			}
 			    catch(Exception e)
 			    {
 			    	System.out.println(e.getMessage());
+			    
 			    }
 			}
+			}
+		
 		});
 		
 		
@@ -481,7 +489,8 @@ public class Login extends JPanel {
 	}
 	
 	
-	public void appendTextFile(String text) {     
+	public void appendTextFile(String text) { 
+		//File file = new File("filename2.txt");
 		File file = new File("filename.txt");
 		if (!file.exists()) {
 			try {

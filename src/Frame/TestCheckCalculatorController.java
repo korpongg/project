@@ -13,17 +13,48 @@ class TestCheckCalculatorController {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		controller = new ChecKCalController();
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
+		controller=null;
 	}
 
 	@Test
 	void testCalPassed() {
-		//boolean result=controller.checkCal(a)("aaaa","12345", new File("filename.txt"));
+		boolean result=controller.checkCal("123");
 		
-		assertTrue(result == true);
+		assertTrue(result);
+	}
+	
+
+	@Test
+	void testCalFailed() {
+		
+		
+	double result=controller.checkNotNum("abc");
+	
+		assertTrue(result==0);
 	}
 
+	
+
+	@Test
+	void testCalNull() {
+		
+		
+	double result=controller.checkNull(null);
+	
+		assertTrue(result==0);
+	}
+	
+	@Test
+	void testCalNotHaveWord() {
+		
+		
+	double result=controller.checkNotHaveWord("");
+	
+		assertTrue(result==0);
+	}
 }

@@ -3,16 +3,21 @@ package Frame;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Frame;
+import javax.mail.PasswordAuthentication;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -20,9 +25,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -38,20 +53,31 @@ public class Calculator extends JPanel{
 	ArrayList<String> list2;
 	ArrayList<String> list3;
 	ArrayList<String> list5;
+	JComboBox jbo;
 	ArrayList<Integer> list4;
 	DefaultTableModel model;
 	int i=0,j=0;
 	int k=2;
+	
 	String[][] data;
 	int o=2;
+	JTable table;
 	 ArrayList <String> allSS=new ArrayList <String>();
 	 String ss99;
 	 double[] a;
-	double stu;
+	 double ai[];
+		double stu[];
+		double max=0,min=0,avg=0,total=0,sd=0;
 	 ArrayList <Double> allS=new ArrayList <Double>();
 	 double allsize=0;
 	 ArrayList<Double> array4=new ArrayList <Double>();
 	 ChecKCalController checker = new ChecKCalController();
+	 double a1,a2,a3,a4,a5,a6,a7;
+	String cls1,cls2,cls3;
+	 final int  ii=0;
+	 int check=0;
+	ArrayList <JComboBox> ajr=new ArrayList <JComboBox>();
+	JLabel ll1,ll2,ll3;
 	public Calculator(Frame f,Grade g,ArrayList <String> allSS,String ss99,ArrayList<Double> array4) 
 	{
 		this.array4=array4;
@@ -61,7 +87,60 @@ public class Calculator extends JPanel{
 		this.ss99=ss99;
 		model = new DefaultTableModel();
 		JButton jb=new JButton("CALCULATOR");
-		JButton jb2=new JButton("ADD");
+		JButton jb2=new JButton("Send to txt");
+		
+		JPanel jps=new JPanel();
+	jps.setLayout(new GridLayout(1,3));
+	JPanel jps2=new JPanel();
+	jps2.setLayout(new BorderLayout());
+	jps2.add(jps,BorderLayout.NORTH);
+	
+	JPanel jps3=new JPanel();
+	jps3.setLayout(new GridLayout(1,2));
+	JRadioButton jrb1=new JRadioButton("Criteria Reference");
+	JRadioButton jrb2=new JRadioButton("Norm Referenced");
+	jps3.add(jrb1);
+	jps3.add(jrb2);
+	jrb1.setSelected(true);
+	jps2.add(jps3,BorderLayout.SOUTH);
+	jrb1.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			JRadioButton radioButton = ( JRadioButton ) e.getSource ( ); 
+
+            boolean isSelected = radioButton.isSelected ( ); 
+
+            if ( isSelected ) 
+            { 
+            	check=0;
+            } 
+        
+		}
+	});
+jrb2.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			JRadioButton radioButton = ( JRadioButton ) e.getSource ( ); 
+
+            boolean isSelected = radioButton.isSelected ( ); 
+
+            if ( isSelected ) 
+            { 
+            	check=1;
+            } 
+        
+		}
+	});
+	ll1=new JLabel("Subjects :"+cls1);
+	 ll2=new JLabel("Section :"+cls2);
+	 ll3=new JLabel("Academic Year :"+cls3);
+	 jps.add(ll1);
+	 jps.add(ll2);
+	 jps.add(ll3);
 	//	ArrayList arr=new ArrayList();
 		try
 		{
@@ -141,14 +220,14 @@ public class Calculator extends JPanel{
 	    model.addColumn("Col3", colData.toArray());
 		*/
 		
-	 data =new String[j][6+allSS.size()];
+	 data =new String[j][6+allSS.size()+2];
 	 
 	 
 		System.out.println(j);
 	//	add(table2);
 		
 		//String header[] = {"NO", "ID", "NAME", "SURNAME" ,"RAW SCORE","TEST SCORE"};
-		String header[]= new String[4+allSS.size()];
+		String header[]= new String[4+allSS.size()+2];
 		int mm=0;
 		for(int i=0;i<4+allSS.size();i++)
 		{
@@ -177,6 +256,68 @@ public class Calculator extends JPanel{
 			System.out.println(header[i]);
 			
 		}
+		for(int j=4+allSS.size();j<4+allSS.size()+2;j++)
+		{
+			if(j==4+allSS.size())
+			{
+				header[j]="TOTAL";
+			}
+			else if(j==4+allSS.size()+1)
+			{
+				header[j]="POSITION";
+			}
+		}
+		String[] petStrings = {"Present","Absent" };
+		jbo=new JComboBox(petStrings);
+		
+
+		
+		 
+		ArrayList <JComboBox> ajr2=new ArrayList <JComboBox>();
+		
+		for(int i=0;i<j;i++)
+		{
+			
+			ajr.add(jbo);
+			ajr.get(i).getSelectedItem();
+			
+			ajr.get(ii).addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+				
+					  String s = (String) ajr.get(ii).getSelectedItem();//get the selected item
+					  	
+		                switch (s) {//check for a match
+		                    case "Present":
+		                        System.out.println("aaaaaa");
+		                    	 for(int jl=4;jl<table.getColumnCount()-1;jl++)
+								  {
+									table.setValueAt("put",ii,jl);
+								  }
+		                        break;
+		                    case "Absent":
+		                        System.out.println("bbbbb");
+		                    	  for(int jl=4;jl<table.getColumnCount()-1;jl++)
+								  {
+									  table.setValueAt("0",ii,jl);
+									 
+								  }
+		                        break;
+		                  
+		                }
+		                
+				}
+				
+			});
+			
+		//setPosition(i);
+		}
+	
+		
+		
+		
+		
 		System.out.println("sadlkasnkfasjkfnlaskjnf");
 		 DefaultTableModel model = new DefaultTableModel();
 		    //JTable table = new JTable(model);
@@ -184,12 +325,15 @@ public class Calculator extends JPanel{
 		    model.addColumn("Col1");
 		    model.addColumn("Col2");
 
-		JTable table = new JTable(data,header);
+		 table = new JTable(data,header);
 		//int t=0;
+			//	DefaultTableModel dm =new DefaultTableModel();
+		TableColumn col=table.getColumnModel().getColumn(4+allSS.size()+1);
+		
 		for(int i=0;i<table.getRowCount();i++)
 		{
 			
-				for(int k=0;k<table.getRowCount();k++)
+				for(int k=0;k<table.getRowCount()+2;k++)
 				{
 					
 					if(k==0)
@@ -208,6 +352,18 @@ public class Calculator extends JPanel{
 					{
 						data[i][k] = list3.get(i) ;
 					}
+					if(k==table.getColumnCount()-1)
+					{
+						data[i][k] = "Choose...";
+						col.setCellEditor(new DefaultCellEditor(jbo));
+					
+						
+					}
+				
+					 
+					
+						
+					
 					
 				}
 			
@@ -253,8 +409,8 @@ public class Calculator extends JPanel{
 		
 			p3.add(p1,BorderLayout.NORTH);
 		p4.add(jb);
-		
-		add(p3);
+		add(jps2,BorderLayout.NORTH);
+		add(p3,BorderLayout.CENTER);
 		add(p4,BorderLayout.SOUTH);
 repaint();
 
@@ -264,6 +420,8 @@ repaint();
 			public void actionPerformed(ActionEvent e) {
 				a= new double[j];
 				double sum=0;
+				ai=new double[j];
+				stu=new double[j];
 				
 				for(int i=0;i<table.getRowCount();i++)
 				{
@@ -276,9 +434,7 @@ repaint();
 						 {
 							 a[i]=0;
 							 sum=sum+a[i];
-								if (checker.checkCal(a[i])) {
-									
-								}
+								
 							 //System.out.println(a[i]);
 						 }
 						 else
@@ -287,10 +443,11 @@ repaint();
 							 b = (String) table.getValueAt(i, 4+l);
 							 if(b.equals(""))
 							 {
-								 a[i]=0;
-								 if (checker.checkCal(a[i])) {
-										
+								 if (checker.checkCal(b)) {
+										System.out.println("trueeeeeee");
 									}
+								 a[i]=0;
+								 
 								 sum=sum+a[i];
 								 
 								// System.out.println(a[i]);
@@ -298,10 +455,11 @@ repaint();
 							 }
 							 else
 							 {
-								 a[i]=Integer.parseInt(b);
-								 if (checker.checkCal(a[i])) {
-										
+								 if (checker.checkCal(b)) {
+									 System.out.println("trueeeeeee");
 									}
+								 a[i]=Integer.parseInt(b);
+								 
 								 sum=sum+a[i];
 								// System.out.println(i+"---"+a[i]);
 								 //System.out.println(g.getGrade(a[i]));
@@ -311,6 +469,8 @@ repaint();
 					}
 					a[i]=sum;
 					sum=0;
+					
+					
 					/* a= new double[j];
 					 String b;
 					 if(table.getValueAt(i, 4+l)==null)
@@ -355,22 +515,12 @@ repaint();
 				}
 				
 				
-			}
-		});
-		
-		jb2.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-			//	table.addColumn("sadasd");
 				for(int i=0;i<array4.size();i++)
 				{
 					allsize=allsize+array4.get(i);
 				}
 				System.out.println("allSize===="+allsize);
-				double ai[]=new double[j];
-				double stu[]=new double[j];
+				
 			
 				for(int i=0;i<j;i++)
 				{
@@ -378,8 +528,82 @@ repaint();
 					System.out.println("stu"+i+" === "+stu[i]);
 					//ai[i]=(a[i])
 				}
+					
+				if(check==1)
+				{
+				for(int i=0;i<j;i++)
+				{
+					if(i==0)
+					{
+						max=stu[i];
+					}
+					if(max<stu[i])
+					{
+						max=stu[i];
+					}
+				}
+				for(int i=0;i<j;i++)
+				{
+					if(i==0)
+					{
+						min=stu[i];
+					}
+					if(min>stu[i])
+					{
+						min=stu[i];
+					}
+				}
+				for(int i=0;i<j;i++)
+				{
+					avg=avg+stu[i];
+				}
+				avg=avg/j;
+				
+				for (int i = 0; i < j; i++) {
+					System.out.println(stu[i]+" ----  "+avg);
+		            total += Math.pow(stu[i]-avg,2);
+		            System.out.println(i+" ++++++  "+total);
+		        }
+				sd = Math.sqrt(total/j);
+				double pis=max-min;
+				
+				System.out.println("max===="+max);
+				System.out.println("min===="+min);
+				System.out.println("avg===="+avg);
+				System.out.println("sd===="+sd/2);
+				
+				letNum(avg,sd,pis);
+				for(int i=0;i<j;i++)
+				{
+					System.out.println();
+				}
+				
+				}
+				
+					for(int i=0;i<table.getRowCount();i++)
+					{
+						//System.out.println("sadsasdasdasd-====="+(4+l));
+						System.out.println("i====="+i);
+						 table.setValueAt(""+stu[i],i,table.getColumnCount()-2);
+						
+					}	
+				
+					
+			}
+			
+		});
+		
+		jb2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				
+				// TODO Auto-generated method stub
+			//	table.addColumn("sadasd");
+				
 				
 				File file = new File("Score.txt");
+				Email email=new Email();
 				if (!file.exists()) {
 					try {
 						file.createNewFile();
@@ -389,13 +613,22 @@ repaint();
 				} 
 			  
 				try {
-					
+				
 					BufferedWriter buf = new BufferedWriter(new FileWriter(file, false)); 
 					file.delete();
 					for(int i=0;i<j;i++)
 					{
+						if(check==0)
+						{
+							buf.write(list1.get(i)+" "+g.getGrade(a[i]));
+							email.sendEmail(list1.get(i)+" "+g.getGrade(a[i]));
+						}
+						else
+						{
+							buf.write(list1.get(i)+" "+setGrade(stu[i]));
+							email.sendEmail(list1.get(i)+" "+setGrade(stu[i]));
+						}
 						
-						buf.write(list1.get(i)+" "+g.getGrade(stu[i]));
 						buf.newLine();
 						
 					}
@@ -406,7 +639,10 @@ repaint();
 				}
 				
 			    
+			
 			}
+			
+				
 		});
 	
 	}
@@ -418,4 +654,134 @@ repaint();
 		
 		this.allSS=allSS;
 	}
+	
+	public void letNum(double avg,double sd,double pis)
+	{
+		double z1,z2,z3,z4,z5,z6;
+		z1=(1-avg)/sd;
+		z2=(2-avg)/sd;
+		z3=(3-avg)/sd;
+		z4=(4-avg)/sd;
+		z5=(5-avg)/sd;
+		z6=(6-avg)/sd;
+		double sk=pis/8;
+		a1=avg+1.5*sd;
+		a2=avg+1*sd;
+		 a3=avg+0.5*sd;
+		 a7=avg;
+		 a4=avg-0.5*sd;
+		 a5=avg-1*sd;
+		 a6=avg-1.5*sd;
+		
+	
+		 System.out.println("a1======"+a1);
+		 System.out.println("a2======"+a2);
+		 System.out.println("a3======"+a3);
+		 System.out.println("avg======"+a7);
+		 System.out.println("a4======"+a4);
+		 System.out.println("a5======"+a5);
+		 System.out.println("a6======"+a6);
+	
+		
+	}
+	public String setGrade(double a)
+	{
+		if(a>=a1)
+		{
+			return "A";
+		}
+		else if(a>=a2&&a<a1)
+		{
+			return "B+";
+		}
+		else if(a>=a3&&a<a2)
+		{
+			return "B";
+		}
+		else if(a>=a7&&a<a3)
+		{
+			return "C+";
+		}
+		else if(a>=a4&&a<a7)
+		{
+			return "C";
+		}
+		else if(a>=a5&&a<a4)
+		{
+			return "D+";
+		}
+		else if(a>=a6&&a<a5)
+		{
+			return "D";
+		}
+		else
+		{
+			return "F";
+		}
+			
+	}
+	public void setText(String cls1,String cls2,String cls3)
+	{
+		this.cls1=cls1;
+		this.cls2=cls2;
+		this.cls3=cls3;
+		ll1.setText("Subjects :"+cls1);
+		ll2.setText("Section :"+cls2);
+		ll3.setText("Academic Year :"+cls3);
+		
+	}
+	void setPosition(int i)
+	{
+		
+			ajr.get(i).addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+				/*	 if (ajr.get(ii).getSelectedItem().toString().equals("Present"))
+		                {
+						  for(int jl=4;jl<table.getColumnCount()-1;jl++)
+						  {
+							table.setValueAt("put",ii,jl);
+						  }
+						  
+						  
+						 
+		                }
+					  if (ajr.get(ii).getSelectedItem().toString().equals("Absent"))
+		                {
+						  for(int jl=4;jl<table.getColumnCount()-1;jl++)
+						  {
+							  table.setValueAt("0",ii,jl);
+							 
+						  }
+						 
+		                }*/
+					  String s = (String) ajr.get(i).getSelectedItem();//get the selected item
+
+		                switch (s) {//check for a match
+		                    case "Present":
+		                        System.out.println("aaaaaa");
+		                    	 for(int jl=4;jl<table.getColumnCount()-1;jl++)
+								  {
+									table.setValueAt("put",i,jl);
+								  }
+		                        break;
+		                    case "Absent":
+		                        System.out.println("bbbbb");
+		                    	  for(int jl=4;jl<table.getColumnCount()-1;jl++)
+								  {
+									  table.setValueAt("0",i,jl);
+									 
+								  }
+		                        break;
+		                  
+		                }
+				}
+			});
+		}
+	
+	
 }
+
+
