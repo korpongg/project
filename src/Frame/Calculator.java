@@ -306,7 +306,6 @@ jrb2.addActionListener(new ActionListener() {
 		                        break;
 		                  
 		                }
-		                
 				}
 				
 			});
